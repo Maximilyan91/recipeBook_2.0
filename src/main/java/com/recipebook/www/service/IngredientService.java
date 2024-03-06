@@ -4,7 +4,11 @@ import com.recipebook.www.model.Ingredient;
 
 public interface IngredientService {
 
-    void add(Ingredient ingredient);
+    Ingredient add(Ingredient ingredient);
 
-    Ingredient get(int id);
+    Ingredient get(long id);
+
+    Ingredient editIngredient(long id, Ingredient ingredient);
+
+    boolean deleteIngredient(long id);
 }

@@ -15,5 +15,4 @@ public class Recipe {
 
     private List<String> cookingSteps;
 
-    private String measureUnit;
 }

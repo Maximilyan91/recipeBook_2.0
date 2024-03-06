@@ -1,0 +1,54 @@
+[
+  {
+    "title": "Овсяная каша",
+    "cookingTime": 20,
+    "ingredientList": [
+      {
+        "title": "Овсянка",
+        "quantity": 100,
+        "measureUnit": "грамм"
+      },
+      {
+        "title": "Масло сливочное",
+        "quantity": 30,
+        "measureUnit": "грамм"
+      },
+      {
+        "title": "Молоко",
+        "quantity": 1,
+        "measureUnit": "литр"
+      }
+    ],
+    "cookingSteps": [
+      "1. Сварить овсянку",
+      "2. Добавить масло",
+      "3. Посолить"
+    ]
+  },
+  {
+    "title": "Жареный картофель",
+    "cookingTime": 60,
+    "ingredientList": [
+      {
+        "title": "Лук репчатый",
+        "quantity": 100,
+        "measureUnit": "грамм"
+      },
+      {
+        "title": "Картофель",
+        "quantity": 1,
+        "measureUnit": "кг"
+      },
+      {
+        "title": "Молоко",
+        "quantity": 1,
+        "measureUnit": "литр"
+      }
+    ],
+    "cookingSteps": [
+      "1. Очистить картофель",
+      "2. Нарезать картофель",
+      "3. Пожарить картофель"
+    ]
+  }
+]

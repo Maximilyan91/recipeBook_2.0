@@ -1,0 +1,27 @@
+[
+  {
+    "title": "Лук репчатый",
+    "quantity": 100,
+    "measureUnit": "грамм"
+  },
+  {
+    "title": "Картофель",
+    "quantity": 1,
+    "measureUnit": "кг"
+  },
+  {
+    "title": "Молоко",
+    "quantity": 1,
+    "measureUnit": "литр"
+  },
+  {
+    "title": "Масло сливочное",
+    "quantity": 30,
+    "measureUnit": "грамм"
+  },
+  {
+    "title": "Соль",
+    "quantity": 1,
+    "measureUnit": "щепотка"
+  }
+]

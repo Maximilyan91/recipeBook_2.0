@@ -9,7 +9,11 @@ public interface RecipeService {
 
     Map<Integer, Recipe> recipeList = new HashMap<>();
 
-    void addRecipe(Recipe recipe);
+    long addRecipe(Recipe recipe);
 
-    Recipe getRecipe(int id);
+    Recipe getRecipe(long id);
+
+    Recipe editRecipe(long id, Recipe recipe);
+
+    Recipe deleteRecipe(long id);
 }

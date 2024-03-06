@@ -11,24 +11,51 @@ import java.util.Map;
 @Service
 public class RecipeServiceImpl implements RecipeService {
 
-    private static int id = 0;
-    private final Map<Integer, Recipe> recipes = new HashMap<>();
+    private static long id = 0;
+    private final Map<Long, Recipe> recipes = new HashMap<>();
     ValidationService validationService;
 
-    @Override
-    public void addRecipe(Recipe recipe) {
-
-        if (!validationService.validate(recipe)) {
-            throw new IllegalArgumentException("Неверный рецепт");
-        }
-        recipes.put(++id, recipe);
+    public RecipeServiceImpl(ValidationService validationService) {
+        this.validationService = validationService;
     }
 
     @Override
-    public Recipe getRecipe(int id) {
-        if (id < 1) {
+    public long addRecipe(Recipe recipe) {
+
+        if (!validationService.validate(recipe)) {
+            throw new IllegalArgumentException("Некорректный рецепт");
+        }
+        recipes.put(++id, recipe);
+        return id;
+    }
+
+    @Override
+    public Recipe getRecipe(long id) {
+        if (id < 0) {
             throw new IllegalArgumentException("id отрицателен или равен 0");
         }
         return recipes.get(id);
+    }
+
+    @Override
+    public Recipe editRecipe(long id, Recipe recipe) {
+        if (!validationService.validate(recipe)) {
+            throw new IllegalArgumentException("Некорректный рецепт");
+        }
+
+        if (!recipes.containsKey(id)) {
+            throw new IllegalArgumentException(("Рецепт с id " + id + " отсутствует в базе"));
+        }
+
+        recipes.put(id, recipe);
+        return recipe;
+    }
+
+    @Override
+    public Recipe deleteRecipe(long id) {
+        if (!recipes.containsKey(id)) {
+            throw new IllegalArgumentException(("Рецепт с id " + id + " отсутствует в базе"));
+        }
+        return recipes.remove(id);
     }
 }
