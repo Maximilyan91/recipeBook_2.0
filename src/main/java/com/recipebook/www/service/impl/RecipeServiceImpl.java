@@ -5,8 +5,10 @@ import com.recipebook.www.service.RecipeService;
 import com.recipebook.www.service.ValidationService;
 import org.springframework.stereotype.Service;
 
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -57,5 +59,13 @@ public class RecipeServiceImpl implements RecipeService {
             throw new IllegalArgumentException(("Рецепт с id " + id + " отсутствует в базе"));
         }
         return recipes.remove(id);
+    }
+
+    @Override
+    public Map<Long, Recipe> getAllRecipes() {
+        if (recipes.isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return recipes;
     }
 }

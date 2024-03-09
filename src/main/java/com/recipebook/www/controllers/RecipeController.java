@@ -5,6 +5,9 @@ import com.recipebook.www.service.RecipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 @RestController
 @RequestMapping("/recipe")
 public class RecipeController {
@@ -48,6 +51,15 @@ public class RecipeController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(recipe);
+    }
+@GetMapping("/all")
+    public ResponseEntity<Map<Long, Recipe>> getAllRecipes() {
+
+        Map<Long, Recipe> allRecipes = recipeService.getAllRecipes();
+        if (allRecipes == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(allRecipes);
     }
 
 }
