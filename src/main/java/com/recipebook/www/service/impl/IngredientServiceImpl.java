@@ -5,6 +5,7 @@ import com.recipebook.www.service.IngredientService;
 import com.recipebook.www.service.ValidationService;
 import org.springframework.stereotype.Service;
 
+import java.util.EmptyStackException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -58,6 +59,14 @@ public class IngredientServiceImpl implements IngredientService {
         }
         ingredients.remove(id);
         return true;
+    }
+
+    @Override
+    public Map<Long, Ingredient> getAllIngredients() {
+        if (ingredients.isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return ingredients;
     }
 
 }

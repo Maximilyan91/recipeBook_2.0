@@ -2,6 +2,8 @@ package com.recipebook.www.service;
 
 import com.recipebook.www.model.Ingredient;
 
+import java.util.Map;
+
 public interface IngredientService {
 
     Ingredient add(Ingredient ingredient);
@@ -11,4 +13,6 @@ public interface IngredientService {
     Ingredient editIngredient(long id, Ingredient ingredient);
 
     boolean deleteIngredient(long id);
+
+    Map<Long, Ingredient> getAllIngredients();
 }

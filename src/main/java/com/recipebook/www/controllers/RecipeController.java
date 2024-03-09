@@ -27,6 +27,7 @@ public class RecipeController {
     @GetMapping("/{id}")
     public ResponseEntity<Recipe> getRecipe(@PathVariable long id) {
         Recipe recipe = recipeService.getRecipe(id);
+
         if (recipe != null) {
             return ResponseEntity.ok(recipe);
         }
@@ -54,8 +55,8 @@ public class RecipeController {
     }
 @GetMapping("/all")
     public ResponseEntity<Map<Long, Recipe>> getAllRecipes() {
-
         Map<Long, Recipe> allRecipes = recipeService.getAllRecipes();
+
         if (allRecipes == null) {
             return ResponseEntity.notFound().build();
         }
