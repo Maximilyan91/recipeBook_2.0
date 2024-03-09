@@ -18,4 +18,6 @@ public interface RecipeService {
     Recipe deleteRecipe(long id);
 
     Map<Long, Recipe> getAllRecipes();
+
+    Map<Long, Recipe> findRecipeByIngredient(long id);
 }

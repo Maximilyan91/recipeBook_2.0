@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.TreeMap;
 
 @RestController
 @RequestMapping("/recipe")
@@ -53,7 +52,8 @@ public class RecipeController {
         }
         return ResponseEntity.ok(recipe);
     }
-@GetMapping("/all")
+
+    @GetMapping("/all")
     public ResponseEntity<Map<Long, Recipe>> getAllRecipes() {
         Map<Long, Recipe> allRecipes = recipeService.getAllRecipes();
 
@@ -61,6 +61,15 @@ public class RecipeController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(allRecipes);
+    }
+@PostMapping("/byIngredient/{id}")
+    public ResponseEntity<Map<Long, Recipe>> findRecipeByIngredient(@PathVariable long id) {
+        Map<Long, Recipe> recipes = recipeService.findRecipeByIngredient(id);
+
+        if (recipes == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(recipes);
     }
 
 }

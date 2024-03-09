@@ -50,5 +50,36 @@
       "2. Нарезать картофель",
       "3. Пожарить картофель"
     ]
+  },
+  {
+    "title": "Солянка мясная",
+    "cookingTime": 120,
+    "ingredientList": [
+      {
+        "title": "Лук репчатый",
+        "quantity": 100,
+        "measureUnit": "грамм"
+      },
+      {
+        "title": "Картофель",
+        "quantity": 1,
+        "measureUnit": "кг"
+      },
+      {
+        "title": "Колбаса",
+        "quantity": 100,
+        "measureUnit": "гр"
+      },
+      {
+      "title": "Маслины",
+      "quantity": 50,
+      "measureUnit": "гр"
+    }
+    ],
+    "cookingSteps": [
+      "1. Сварить бульон",
+      "2. Добавить овощи и зажарку",
+      "3. Скушать"
+    ]
   }
 ]
