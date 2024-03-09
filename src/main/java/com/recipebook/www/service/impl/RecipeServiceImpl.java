@@ -7,10 +7,7 @@ import com.recipebook.www.service.RecipeService;
 import com.recipebook.www.service.ValidationService;
 import org.springframework.stereotype.Service;
 
-import java.util.EmptyStackException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -90,6 +87,20 @@ public class RecipeServiceImpl implements RecipeService {
         for (Recipe recipe : recipes.values()) {
             if (recipe.getIngredientList().get((int) id).equals(ingredient)) {
                 resultMap.put(++recipeId, recipe);
+            }
+        }
+        return resultMap;
+    }
+
+    @Override
+    public Map<Long, Recipe> findRecipeByIngredients(List<Ingredient> ingredients) {
+
+        Map<Long, Recipe> resultMap = new TreeMap<>();
+        long id = 0;
+
+        for (Recipe recipe : recipes.values()) {
+            if (new HashSet<>(recipe.getIngredientList()).containsAll(ingredients)) {
+                resultMap.put(++id, recipe);
             }
         }
         return resultMap;

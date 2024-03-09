@@ -1,10 +1,12 @@
 package com.recipebook.www.controllers;
 
+import com.recipebook.www.model.Ingredient;
 import com.recipebook.www.model.Recipe;
 import com.recipebook.www.service.RecipeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -62,8 +64,9 @@ public class RecipeController {
         }
         return ResponseEntity.ok(allRecipes);
     }
-@PostMapping("/byIngredient/{id}")
-    public ResponseEntity<Map<Long, Recipe>> findRecipeByIngredient(@PathVariable long id) {
+
+    @PostMapping("/byIngredient/{id}")
+    public ResponseEntity<Map<Long, Recipe>> findRecipeByIngredientId(@PathVariable long id) {
         Map<Long, Recipe> recipes = recipeService.findRecipeByIngredient(id);
 
         if (recipes == null) {
@@ -71,5 +74,13 @@ public class RecipeController {
         }
         return ResponseEntity.ok(recipes);
     }
+@PostMapping("/byIngredients")
+    public ResponseEntity<Map<Long, Recipe>> findRecipeByIngredients(@RequestBody List<Ingredient> ingredients) {
+        Map<Long, Recipe> recipes = recipeService.findRecipeByIngredients(ingredients);
 
+        if (recipes == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(recipes);
+    }
 }

@@ -1,8 +1,10 @@
 package com.recipebook.www.service;
 
+import com.recipebook.www.model.Ingredient;
 import com.recipebook.www.model.Recipe;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public interface RecipeService {
@@ -20,4 +22,6 @@ public interface RecipeService {
     Map<Long, Recipe> getAllRecipes();
 
     Map<Long, Recipe> findRecipeByIngredient(long id);
+
+    Map<Long, Recipe> findRecipeByIngredients(List<Ingredient> ingredients);
 }
