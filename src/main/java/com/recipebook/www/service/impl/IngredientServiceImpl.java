@@ -1,11 +1,13 @@
 package com.recipebook.www.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recipebook.www.model.Ingredient;
 import com.recipebook.www.service.FileService;
 import com.recipebook.www.service.IngredientService;
 import com.recipebook.www.service.ValidationService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import java.util.EmptyStackException;
@@ -15,7 +17,7 @@ import java.util.Map;
 @Service
 public class IngredientServiceImpl implements IngredientService {
 
-    private static final Map<Long, Ingredient> ingredients = new HashMap<>();
+    private static Map<Long, Ingredient> ingredients = new HashMap<>();
 
     private static long id = 0;
 
@@ -56,6 +58,7 @@ public class IngredientServiceImpl implements IngredientService {
             throw new IllegalArgumentException(("Ингредиент с id " + id + " отсутствует в базе"));
         }
         ingredients.put(id, ingredient);
+        saveToFile();
         return ingredient;
     }
 
@@ -83,7 +86,22 @@ public class IngredientServiceImpl implements IngredientService {
         } catch (JsonProcessingException e) {
             e.getMessage();
             throw new RuntimeException(e);
-
         }
+    }
+
+    public Map<Long, Ingredient> readFromFile() {
+        String json = fileService.readFromFile();
+        try {
+            ingredients = new ObjectMapper().readValue(json, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return ingredients;
+    }
+
+    @PostConstruct
+    private void init() {
+        ingredients = readFromFile();
     }
 }
