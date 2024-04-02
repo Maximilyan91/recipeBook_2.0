@@ -1,6 +1,7 @@
 package com.recipebook.www.service;
 
 import com.recipebook.www.model.Ingredient;
+import jakarta.annotation.PostConstruct;
 
 import java.util.Map;
 
@@ -15,4 +16,11 @@ public interface IngredientService {
     boolean deleteIngredient(long id);
 
     Map<Long, Ingredient> getAllIngredients();
+
+    void saveToFile();
+
+    Map<Long, Ingredient> readFromFile();
+
+    @PostConstruct
+    void init();
 }

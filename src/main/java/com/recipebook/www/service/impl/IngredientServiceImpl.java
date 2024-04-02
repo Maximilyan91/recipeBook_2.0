@@ -79,7 +79,8 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredients;
     }
 
-    private void saveToFile() {
+    @Override
+    public void saveToFile() {
         try {
             String json = new ObjectMapper().writeValueAsString(ingredients);
             fileService.saveToFile(json);
@@ -89,6 +90,7 @@ public class IngredientServiceImpl implements IngredientService {
         }
     }
 
+    @Override
     public Map<Long, Ingredient> readFromFile() {
         String json = fileService.readFromFile();
         try {
@@ -100,8 +102,10 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredients;
     }
 
+    @Override
     @PostConstruct
-    private void init() {
+    public void init() {
         ingredients = readFromFile();
+        id = ingredients.size();
     }
 }
