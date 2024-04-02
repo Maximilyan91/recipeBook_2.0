@@ -1,6 +1,9 @@
 package com.recipebook.www.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recipebook.www.model.Ingredient;
+import com.recipebook.www.service.FileService;
 import com.recipebook.www.service.IngredientService;
 import com.recipebook.www.service.ValidationService;
 import org.springframework.stereotype.Service;
@@ -16,10 +19,13 @@ public class IngredientServiceImpl implements IngredientService {
 
     private static long id = 0;
 
-    ValidationService validation;
+    private final ValidationService validation;
 
-    public IngredientServiceImpl(ValidationService validation) {
+    private final FileService fileService;
+
+    public IngredientServiceImpl(ValidationService validation, FileService fileService) {
         this.validation = validation;
+        this.fileService = fileService;
     }
 
     @Override
@@ -28,6 +34,7 @@ public class IngredientServiceImpl implements IngredientService {
             throw new IllegalArgumentException("Неверный ингредиент");
         }
         ingredients.put(++id, ingredient);
+        saveToFile();
         return ingredient;
     }
 
@@ -69,4 +76,14 @@ public class IngredientServiceImpl implements IngredientService {
         return ingredients;
     }
 
+    private void saveToFile() {
+        try {
+            String json = new ObjectMapper().writeValueAsString(ingredients);
+            fileService.saveToFile(json);
+        } catch (JsonProcessingException e) {
+            e.getMessage();
+            throw new RuntimeException(e);
+
+        }
+    }
 }
