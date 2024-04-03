@@ -1,28 +1,34 @@
 package com.recipebook.www.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recipebook.www.model.Ingredient;
 import com.recipebook.www.model.Recipe;
 import com.recipebook.www.service.IngredientService;
 import com.recipebook.www.service.RecipeService;
 import com.recipebook.www.service.ValidationService;
+import jakarta.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 @Service
+@AllArgsConstructor
 public class RecipeServiceImpl implements RecipeService {
 
     private static long id = 0;
-    private final Map<Long, Recipe> recipes = new HashMap<>();
 
     private final IngredientService ingredientService;
 
-    ValidationService validationService;
+    private final ValidationService validationService;
 
-    public RecipeServiceImpl(ValidationService validationService, IngredientService ingredientService) {
-        this.validationService = validationService;
-        this.ingredientService = ingredientService;
-    }
+    private final RecipeFileServiceImpl fileService;
+
+    private Map<Long, Recipe> recipes = new HashMap<>();
 
     @Override
     public long addRecipe(Recipe recipe) {
@@ -31,6 +37,7 @@ public class RecipeServiceImpl implements RecipeService {
             throw new IllegalArgumentException("Некорректный рецепт");
         }
         recipes.put(++id, recipe);
+        saveToFile();
         return id;
     }
 
@@ -53,6 +60,7 @@ public class RecipeServiceImpl implements RecipeService {
         }
 
         recipes.put(id, recipe);
+        saveToFile();
         return recipe;
     }
 
@@ -61,7 +69,9 @@ public class RecipeServiceImpl implements RecipeService {
         if (!recipes.containsKey(id)) {
             throw new IllegalArgumentException(("Рецепт с id " + id + " отсутствует в базе"));
         }
-        return recipes.remove(id);
+        Recipe recipe = recipes.remove(id);
+        saveToFile();
+        return recipe;
     }
 
     @Override
@@ -104,5 +114,30 @@ public class RecipeServiceImpl implements RecipeService {
             }
         }
         return resultMap;
+    }
+
+    private void saveToFile() {
+        try {
+            String json = new ObjectMapper().writeValueAsString(recipes);
+            fileService.saveToFile(json);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Map<Long, Recipe> readFromFile() {
+        String json = fileService.readFromFile();
+        try {
+            return recipes = new ObjectMapper().readValue(json, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostConstruct
+    private void init() {
+        recipes = readFromFile();
+        id = recipes.size();
     }
 }

@@ -2,11 +2,12 @@ package com.recipebook.www.service.impl;
 
 import com.recipebook.www.service.FileService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
+@Service
 public class RecipeFileServiceImpl implements FileService {
     @Value("${path.to.recipe.data.file}")
     private String dataFilePath;
@@ -29,8 +30,9 @@ public class RecipeFileServiceImpl implements FileService {
 
     @Override
     public String readFromFile() {
+        Path path = Path.of(dataFilePath, dataFileName);
         try {
-           return Files.readString(Path.of(dataFilePath, dataFileName));
+            return Files.readString(Path.of(dataFilePath, dataFileName));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

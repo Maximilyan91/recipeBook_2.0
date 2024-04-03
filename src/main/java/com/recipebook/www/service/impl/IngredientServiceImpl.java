@@ -68,6 +68,7 @@ public class IngredientServiceImpl implements IngredientService {
             return false;
         }
         ingredients.remove(id);
+        saveToFile();
         return true;
     }
 
@@ -96,10 +97,10 @@ public class IngredientServiceImpl implements IngredientService {
         try {
             ingredients = new ObjectMapper().readValue(json, new TypeReference<>() {
             });
+            return ingredients;
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        return ingredients;
     }
 
     @Override
