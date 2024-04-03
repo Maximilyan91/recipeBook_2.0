@@ -1,6 +1,6 @@
 package com.recipebook.www.service;
 
-public interface IngredientsFileService {
+public interface FileService {
     boolean saveToFile(String json);
 
     String readFromFile();

@@ -2,23 +2,20 @@ package com.recipebook.www.service.impl;
 
 import com.recipebook.www.service.FileService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Service
-public class IngredientsFileServiceImpl implements FileService {
-    @Value("${path.to.ingredient.data.file}")
+public class RecipeFileServiceImpl implements FileService {
+    @Value("${path.to.recipe.data.file}")
     private String dataFilePath;
-    @Value("${name.of.ingredient.data.file}")
+    @Value("${name.of.recipe.data.file}")
     private String dataFileName;
 
     @Override
     public boolean saveToFile(String json) {
         Path path = Path.of(dataFilePath, dataFileName);
-
         if (!Files.exists(path)) {
             createDataFIle();
         }
@@ -33,7 +30,7 @@ public class IngredientsFileServiceImpl implements FileService {
     @Override
     public String readFromFile() {
         try {
-            return Files.readString(Path.of(dataFilePath, dataFileName));
+           return Files.readString(Path.of(dataFilePath, dataFileName));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -41,13 +38,11 @@ public class IngredientsFileServiceImpl implements FileService {
 
     @Override
     public boolean createDataFIle() {
-        Path path = Path.of(dataFilePath, dataFileName);
         try {
-            Files.createFile(path);
+            Files.createFile(Path.of(dataFilePath, dataFileName));
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException(e);
         }
     }
 }
