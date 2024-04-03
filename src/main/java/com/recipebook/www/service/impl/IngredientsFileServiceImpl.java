@@ -1,6 +1,6 @@
 package com.recipebook.www.service.impl;
 
-import com.recipebook.www.service.FileService;
+import com.recipebook.www.service.IngredientsFileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
-public class IngredientsFileServiceImpl implements FileService {
+public class IngredientsFileServiceImpl implements IngredientsFileService {
     @Value("${path.to.ingredient.data.file}")
     private String dataFilePath;
     @Value("${name.of.ingredient.data.file}")
@@ -17,9 +17,13 @@ public class IngredientsFileServiceImpl implements FileService {
 
     @Override
     public boolean saveToFile(String json) {
-        cleanDataFIle();
+        Path path = Path.of(dataFilePath, dataFileName);
+
+        if (!Files.exists(path)) {
+            createDataFIle();
+        }
         try {
-            Files.writeString(Path.of(dataFilePath, dataFileName), json);
+            Files.writeString(path, json);
             return true;
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -36,10 +40,9 @@ public class IngredientsFileServiceImpl implements FileService {
     }
 
     @Override
-    public boolean cleanDataFIle() {
+    public boolean createDataFIle() {
+        Path path = Path.of(dataFilePath, dataFileName);
         try {
-            Path path = Path.of(dataFilePath, dataFileName);
-            Files.deleteIfExists(path);
             Files.createFile(path);
             return true;
         } catch (IOException e) {

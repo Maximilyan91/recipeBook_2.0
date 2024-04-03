@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.recipebook.www.model.Ingredient;
-import com.recipebook.www.service.FileService;
+import com.recipebook.www.service.IngredientsFileService;
 import com.recipebook.www.service.IngredientService;
 import com.recipebook.www.service.ValidationService;
 import jakarta.annotation.PostConstruct;
@@ -23,9 +23,9 @@ public class IngredientServiceImpl implements IngredientService {
 
     private final ValidationService validation;
 
-    private final FileService fileService;
+    private final IngredientsFileService fileService;
 
-    public IngredientServiceImpl(ValidationService validation, FileService fileService) {
+    public IngredientServiceImpl(ValidationService validation, IngredientsFileService fileService) {
         this.validation = validation;
         this.fileService = fileService;
     }
