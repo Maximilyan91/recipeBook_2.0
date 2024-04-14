@@ -4,6 +4,7 @@ import com.recipebook.www.service.FileService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -49,5 +50,9 @@ public class IngredientsFileServiceImpl implements FileService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public File getDataFile() {
+        return new File(dataFilePath + "/" + dataFileName);
     }
 }
