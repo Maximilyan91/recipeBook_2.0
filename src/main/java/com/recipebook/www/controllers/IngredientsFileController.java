@@ -1,7 +1,6 @@
 package com.recipebook.www.controllers;
 
 import com.recipebook.www.service.impl.IngredientsFileServiceImpl;
-import com.recipebook.www.service.impl.RecipeFileServiceImpl;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -16,20 +15,18 @@ import java.io.FileNotFoundException;
 
 @RestController
 @RequestMapping("/files")
-public class FilesController {
+public class IngredientsFileController {
 
-    private IngredientsFileServiceImpl ingrFileService;
+    private final IngredientsFileServiceImpl fileService;
 
-    private final RecipeFileServiceImpl RecipeFileService;
 
-    public FilesController(IngredientsFileServiceImpl ingrFileService, RecipeFileServiceImpl recipeFileService) {
-        this.ingrFileService = ingrFileService;
-        this.RecipeFileService = recipeFileService;
+    public IngredientsFileController(IngredientsFileServiceImpl fileService) {
+        this.fileService = fileService;
     }
 
-    @GetMapping("/export/ingredients")
+    @GetMapping("/export")
     public ResponseEntity<InputStreamResource> downloadIngredientFile() throws FileNotFoundException {
-        File file = ingrFileService.getDataFile();
+        File file = fileService.getDataFile();
 
         if (!file.exists()) {
             return ResponseEntity.noContent().build();
@@ -42,6 +39,4 @@ public class FilesController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"all_ingredients\"")
                 .body(resource);
     }
-
-
 }
