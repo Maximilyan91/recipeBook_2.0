@@ -14,7 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 @RestController
-@RequestMapping("/files")
+@RequestMapping("/files/ingredients")
 public class IngredientsFileController {
 
     private final IngredientsFileServiceImpl fileService;
